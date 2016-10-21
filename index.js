@@ -8,10 +8,13 @@ var mergeTrees = require('broccoli-merge-trees');
 module.exports = {
   name: 'ember-bootstrap-datetimepicker',
 
-  included: function(target) {
-    this._super.included.apply(this, arguments);
+  included: function(app) {
+    while (typeof app.import !== 'function' && (app.app || app.parent)) {
+      app = app.app || app.parent;
+    }
 
-    var app           = target.app || target;
+    this._super.included.call(this, app);
+
     var bowerDir      = app.bowerDirectory;
     var options       = app.options['ember-bootstrap-datetimepicker'] || {};
 
